@@ -1,0 +1,51 @@
+<canvas width="1300" height="100" id="canvas">Your browser is as old as the sand of Giza</canvas>
+
+<script type='text/javascript'>
+    var canv = document.getElementById('canvas');
+    var g = canv.getContext('2d');
+
+    var r = 25;
+
+    var cx = 0, cy = 50, vcx = 1;
+    var alpha = 0, omega = -.07; // try omega 1
+
+    var tnum = 0;
+    var pxx = [], pyy = [];
+
+    function tick() {
+        g.clearRect(0, 0, 1300, 100);
+
+        cx += vcx;
+        alpha += omega;
+
+        // draw the circle
+        g.beginPath();
+        g.arc(cx, cy, r, 0, 2 * Math.PI);
+        g.fillStyle = 'rgb(50, 128, 50)';
+        g.strokeStyle = '#003300';
+        g.lineWidth = 5;
+        g.fill();
+        g.stroke();
+
+        var px = cx + Math.cos(alpha) * r, py = cy - Math.sin(alpha) * r;
+
+        g.fillStyle = '#aa3333';
+        g.fillRect(px - 5, py - 5, 10, 10);
+
+        if (tnum++ >= 2) {
+            pxx[pxx.length] = px;
+            pyy[pyy.length] = py;
+            tnum = 0;
+        }
+        g.beginPath();
+        g.moveTo(0, 50);
+        for (var i = 0; i < pxx.length; ++i) {
+            g.lineTo(pxx[i], pyy[i]);
+        }
+        g.lineWidth = 5;
+        g.strokeStyle = '#aa3333';
+        g.stroke();
+    }
+
+    var abacaba = setInterval(tick, 1 / 30); // 60 fps :)
+</script>
